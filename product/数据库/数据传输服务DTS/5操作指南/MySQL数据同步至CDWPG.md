@@ -29,32 +29,32 @@ TRIGGER
 支持源端数据库同步表的 DML 操作，包括 INSERT、UPDATE、DELETE、REPLACE。
 
 ## 支持同步的架构
-- 支持1对1单向同步。
-- 支持1对多单向同步。
-- 支持多对1单向同步。
+- 支持 1 对 1 单向同步。
+- 支持 1 对多单向同步。
+- 支持多对 1 单向同步。
 
 ## 前置检查 
 配置云数据库 MySQL 到 CDWPG 数据同步任务，在任务启动前，需要进行前置检查，主要检查内容和检查点如下：
 
 | 检查内容                            | 检查点                                             |
 | ------------------------------ | ------------------------------------------- |
-| 校验目标数据库 schema 和 table是 否存在 | schema 和 table 必须提前创建好，如果没有传建好，则会报错 |
+| 校验目标数据库 schema 和 table是 否存在 | schema 和 table 必须提前创建好，如果没有创建好，则会报错 |
 | 校验当前用户是否拥有目标数据表权限 | 针对要同步的表，首先判断当前用户是否是该表的 owner（owner 拥有所有权限），如果不是，则查看 information_schema.table_privilege 表中的授权信息，必须保证拥有：Delete、Truncate、Insert、References、Select、Update、TRIGGER 的授权权限，否则会报错 |
 | 校验目标端磁盘空间是否充足 | 目标库的可用空间和源端需要的空间进行对比 |
 | 校验源端数据库权限 | 对源实例检查是否有权限：Reload、LockTable、ReplClient、ReplSlave、Select、REPLICATION CLIENT |
-| 源端mysql connect_timeout参数不能小于10 | 校验 MySQL 侧的 connect_timeout 参数是否小于10，如果小于则会报错 | 
+| 源端 mysql connect_timeout 参数不能小于 10 | 校验 MySQL 侧的 connect_timeout 参数是否小于 10，如果小于则会报错 | 
 | 校验源端和目标端数据库连接 | 校验 MySQL 和 CDWPG 的连接是否能正确连接 |
-| 校验源端数据库版本	| MySQL 版本须是5.6或5.7 |
+| 校验源端数据库版本	| MySQL 版本须是 5.6 或 5.7 |
 | 校验源端优化参数 | innodb_stats_on_metadata 指标需要关闭 |
-| 校验源端 binlog 参数 |	binlog_format 须为 ROW；binlog_row_image 须为 FULL；log_bin 须为 ON；gtid_mode 须为ON |
+| 校验源端 binlog 参数 |	binlog_format 须为 ROW；binlog_row_image 须为 FULL；log_bin 须为 ON；gtid_mode 须为 ON |
 | 校验主键约束 |	源端需要同步的表必须有主键 |
 | 校验源数据库编码	| 源端必须是 utf8 或 utf8mb4 |
-| 校验 MySQL 表名大小写配置是否配置正确	| 校验 lower_case_table_names 参数是否为0 |
+| 校验 MySQL 表名大小写配置是否配置正确	| 校验 lower_case_table_names 参数是否为 0 |
 | 校验 MySQL 数据库表名和列名是否含有`"`	| CDWPG 不支持`"`作为列名 |
 
 ## 操作步骤
 1. 登录 [数据同步购买页](https://buy.cloud.tencent.com/dts)，选择相应配置，单击【立即购买】。
- - 计费模式：支持包年包月和按量计费，目前免费，后续计费会通过邮件和站内信方式提前1个月通知用户。
+ - 计费模式：支持包年包月和按量计费，目前免费，后续计费会通过邮件和站内信方式提前 1 个月通知用户。
  - 源实例类型：目前仅支持 MySQL。
  - 源实例地域：选择后不支持再次修改，请选择源实例所在的地域。
  - 目标实例类型：目前仅 CDWPG。
